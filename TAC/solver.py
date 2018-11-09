@@ -19,10 +19,10 @@ def ode1(func, x0, t0, tf, h):
 # Vector power function
 def vec_pow(x, q):
     import numpy as np
-    if np.linalg.norm(x)==0:
+    if np.array([np.linalg.norm(x,axis=0)==0]).any():
         return np.zeros(np.size(x))
     else:
-        return np.array(x)*np.linalg.norm(x)**(q-1)
+        return np.array(x)*np.linalg.norm(x,axis=0)**(q-1)
     
 # Vector power function
 def odd_pow(x, q):
