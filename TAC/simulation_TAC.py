@@ -72,4 +72,10 @@ for x0 in xx0:
     plt.plot(x[0], x[1], color=0.7*np.ones(3))
     plt.xlim(-2, 2)
     plt.ylim(-2, 2)
+    
+plt.figure(num=1)
+plt.savefig('figures/xvst.eps', bbox_inches='tight', format='eps', dpi=1500)
+
+plt.figure(num=2)
+plt.savefig('figures/x2vsx1.eps', bbox_inches='tight', format='eps', dpi=1500)
      
