@@ -6,30 +6,6 @@ Created on Mon Oct  1 16:47:17 2018
 @author: esteban
 """
 
-def system(t, x):
-    from scipy.special import gamma
-    import solver as sol
-    import numpy as np
-    
-    x1, x2 = x[0], x[1]
-    
-    Delta = np.sin(2*np.pi*t/5)
-    
-    p, q, k, a2, b2, Tc2 = 0.5, 1.1, 1.2, 4, 0.25, 0.5
-    mp, mq = (1-k*p)/(q-p), (k*q-1)/(q-p)
-    a1, b1, Tc1, zeta = 4, 0.25, 0.5, 1
-    
-    g1 = gamma(0.25)*gamma(0.25)/((a1**0.5)*gamma(0.5)*2)*(a1/b1)**0.25
-    g2 = gamma(mp)*gamma(mq)/((a2**k)*gamma(k)*(q-p))*(a2/b2)**mp
-    
-    s = x2 + sol.odd_pow(sol.odd_pow(x2,2)+
-        ((g1/Tc1)**2)*(a1*sol.odd_pow(x1,1)+b1*sol.odd_pow(x1,3)),0.5)
-    
-    u = -(g2/Tc2*(a2*np.abs(s)**p+b2*np.abs(s)**q)**k+
-         (g1**2/(2*Tc1**2))*(a1+3*b1*x1**2)+zeta)*np.sign(s)
-    
-    return np.array([x2, u+Delta])
-
 import numpy as np
 import solver as sol
 import matplotlib.pyplot as plt
@@ -37,6 +13,52 @@ import matplotlib as mpl
 label_size = 16
 mpl.rcParams['xtick.labelsize'] = label_size
 mpl.rcParams['font.size'] = label_size
+
+def invdW1(x, q):
+    return 1/q*np.exp(np.abs(x)**q)*sol.odd_pow(x, 1-q)
+
+def proddW1(x, q):
+    return (1/q)**2*np.exp(2*np.abs(x)**q)*(q*np.abs(x)**q+1-q)*np.abs(x)**(1-2*q)
+
+def invdW2(x, q):
+    return np.pi/(2*q)*(sol.odd_pow(x, 1+q) + sol.odd_pow(x, 1-q))
+
+def proddW2(x, q):
+    return (np.pi/(2*q))**2*((1+q)*np.abs(x)**(2*q)+1-q)*(np.absx+np.abs(x)**(1-2*q))
+
+def invdW3(x, q, a):
+    return 1/(a*q)*(np.abs(x)**q+a)**2*sol.odd_pow(x, 1-q)
+
+def proddW3(x, q, a):
+    return (1/(a*q))**2*(np.abs(x)**q+a)**3*(2*np.abs(x)**q+(1-q)*(np.abs(x)**q+a))*np.abs(x)**(1-2*q)
+
+def invdW4(x, q, a):
+    from scipy.special import gamma
+    return gamma(a)/(q)*np.exp(np.abs(x)**q)*sol.odd_pow(x, 1-a*q)
+
+def proddW4(x, q, a):
+    return (gamma(a)/(q))**2*np.exp(2*np.abs(x)**q)*(q*np.abs(x)**q+1-a*q)*np.abs(x)**(1-2*a*q)
+
+
+def system(t, x):
+    import solver as sol
+    import numpy as np
+    
+    x1, x2 = x[0], x[1]
+    
+    Delta = np.sin(2*np.pi*t/5)
+    
+    r1, r2, r3 = 0.1, 1, 1
+    q1, q2, a1, a2 = 0.3, 0.3, 1, 1
+        
+    s = x2 + sol.odd_pow(sol.odd_pow(x2,2)+
+        2/(r1**2)*sol.odd_pow(invdW1(x1,q1),2),0.5)
+    
+    u = -1/r2*invdW1(s,q2)-r3*np.sign(s)-2/(r1**2)*np.abs(invdW1(x1,q1))*
+    
+    return np.array([x2, u+Delta])
+
+
 
 t0, tf, h,  i = 0, 1.2, 1e-5, 0
 #xx0 = np.logspace(-1, 5, 7)

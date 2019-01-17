@@ -5,31 +5,39 @@ Created on Mon Oct  1 15:52:48 2018
 
 @author: esteban
 """
+import numpy as np
+import solver as sol
+import matplotlib.pyplot as plt
+import matplotlib as mpl
 
-def predefined(x, p, q, k, a, b, Tc):
+label_size = 16
+mpl.rcParams['xtick.labelsize'] = label_size
+mpl.rcParams['font.size'] = label_size
+
+def predefined1(x, q, Tc):
+    return -1/(q*Tc)*np.exp(np.abs(x)**q)*sol.odd_pow(x, 1-q)
+
+def predefined2(x, q, Tc):
+    return -np.pi/(2*q*Tc)*(sol.odd_pow(x, 1+q) + sol.odd_pow(x, 1-q))
+
+def predefined3(x, q, a, Tc):
+    return -1/(a*q*Tc)*(np.abs(x)**q+a)**2*sol.odd_pow(x, 1-q)
+
+def predefined4(x, q, a, Tc):
     from scipy.special import gamma
-    import solver as sol
-    mp, mq = (1-k*p)/(q-p), (k*q-1)/(q-p)
-    g = gamma(mp)*gamma(mq)/((a**k)*gamma(k)*(q-p))*(a/b)**mp
-    return -g/Tc*sol.odd_pow(a*sol.odd_pow(x, p)+b*sol.odd_pow(x, q), k)
+    return -gamma(a)/(q*Tc)*np.exp(np.abs(x)**q)*sol.odd_pow(x, 1-a*q)
 
 def system(t, x):
     import solver as sol
     import numpy as np
     Delta = np.sin(2*np.pi*t/5)
-    p, q, k, a, b, Tc, zeta = 0.5, 1.1, 1.2, 4, 0.25, 1, 1
-    return predefined(x,p,q,k,a,b,Tc)-zeta*sol.odd_pow(x, 0)+Delta
+    q, Tc, zeta = 0.3, 1, 1
+    a = 1
+    return predefined4(x,q,a,Tc)-zeta*sol.odd_pow(x, 0)+Delta
 
-import numpy as np
-import solver as sol
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-label_size = 16
-mpl.rcParams['xtick.labelsize'] = label_size
-mpl.rcParams['font.size'] = label_size
 
 t0, tf, h,  i = 0, 1.2, 1e-5, 0
-xx0 = np.logspace(-1, 5, 7)
+xx0 = np.logspace(-1, 3, 5)
 T_x0 = np.zeros(xx0.size)
 plt.figure(figsize=(8,6), num=1)
 plt.figure(figsize=(8,6), num=2)
