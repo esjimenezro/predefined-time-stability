@@ -65,9 +65,9 @@ def system(t, x):
     # System parameters
     g, mc, m, l = 9.8, 1, 0.1, 0.5
     # Controller parameters
-    r1, r2, r3 = 0.618, 0.382, 2
-    q1, q2, a1, a2 = 0.2, 0.2, 1, 1
-    i = 3
+    r1, r2, r3 = 0.91, 0.09, 2
+    q1, q2, a1, a2 = 0.5, 0.5, 1, 1.1
+    i = 4
     # Reference
     r = np.sin(0.5*np.pi*t)
     dr = 0.5*np.pi*np.cos(0.5*np.pi*t)
@@ -105,51 +105,51 @@ e1, e2 = x1-r, x2-dr
 # System parameters
 g, mc, m, l = 9.8, 1, 0.1, 0.5
 # Controller parameters
-r1, r2, r3 = 0.618, 0.382, 2
-q1, q2, a1, a2 = 0.2, 0.2, 1, 1
-i = 3
+r1, r2, r3 = 0.91, 0.09, 2
+q1, q2, a1, a2 = 0.5, 0.5, 1, 1.1
+i = 4
 s = e2 + sol.odd_pow(sol.odd_pow(e2,2)+2/(r1**2)*sol.odd_pow(invdW(i,e1,q1,a1),2),0.5)
 us = -1/r2*invdW(i,s,q2,a2)-r3*np.sign(invdW(i,s,q2,a2))-2/(r1**2)*proddW(i,e1,q1,a1)*np.sign(invdW(i,s,q2,a2))
 f = (g*np.sin(x1)-m*l*x2**2*np.cos(x1)*np.sin(x1)/(mc+m))/(l*(4/3-m*np.cos(x1)**2/(mc+m)))-d2r
 g = (np.cos(x1)/(mc+m))/(l*(4/3-m*np.cos(x1)**2/(mc+m)))
 u = (-f+us)/g
 
-# Trajectories    
-plt.figure(num=1)
-plt.plot(t, r, color=0.5*np.ones(3), lw=3, label='$r(t)$')
-plt.plot(t, dr, color=0.7*np.ones(3), lw=3, label='$\dot{r}(t)$')
-plt.plot(t, x1, '--', color=0*np.ones(3), lw=2, label='$x_1(t)$')
-plt.plot(t, x2, '--', color=0.3*np.ones(3), lw=2, label='$x_2(t)$')
-plt.ylim(-2,5)
-plt.xlim(0, 1.2)
-plt.xlabel('$t$', fontsize = 14)
-plt.legend(loc=9)
-plt.text(1, -1.3, '$T_c=1$')
-plt.axvline(x = 1, ymin = -1, ymax = 2, linestyle='dashed', color = 0.6*np.ones(3))
-plt.grid()
-#plt.savefig('figures/trajW4.eps', bbox_inches='tight', format='eps', dpi=1500)
-
-# Error    
-plt.figure(num=2)
-plt.plot(t, e1, '--', color=0*np.ones(3), lw=2, label='$e_1(t)$')
-plt.plot(t, e2, '--', color=0.3*np.ones(3), lw=2, label='$e_2(t)$')
-plt.ylim(-2,5)
-plt.xlim(0, 1.2)
-plt.xlabel('$t$', fontsize = 14)
-plt.legend(loc=9)
-plt.text(1, -1.3, '$T_c=1$')
-plt.axvline(x = 1, ymin = -1, ymax = 2, linestyle='dashed', color = 0.6*np.ones(3))
-plt.grid()
-#plt.savefig('figures/errorW4.eps', bbox_inches='tight', format='eps', dpi=1500)
-
-# Control    
-plt.figure(num=3)
-plt.plot(t, u, '--', color=0*np.ones(3))
-plt.ylim(-100,100)
-plt.xlim(0, 1.2)
-plt.xlabel('$t$', fontsize = 14)
-plt.ylabel('$u$', fontsize = 14)
-plt.grid()
-#plt.savefig('figures/controllerW4.eps', bbox_inches='tight', format='eps', dpi=1500)
+## Trajectories    
+#plt.figure(num=1)
+#plt.plot(t, r, color=0.5*np.ones(3), lw=3, label='$r(t)$')
+#plt.plot(t, dr, color=0.7*np.ones(3), lw=3, label='$\dot{r}(t)$')
+#plt.plot(t, x1, '--', color=0*np.ones(3), lw=2, label='$x_1(t)$')
+#plt.plot(t, x2, '--', color=0.3*np.ones(3), lw=2, label='$x_2(t)$')
+#plt.ylim(-2,5)
+#plt.xlim(0, 1.2)
+#plt.xlabel('$t$', fontsize = 14)
+#plt.legend(loc=9)
+#plt.text(1, -1.3, '$T_c=1$')
+#plt.axvline(x = 1, ymin = -1, ymax = 2, linestyle='dashed', color = 0.6*np.ones(3))
+#plt.grid()
+#plt.savefig('figures/trajW'+str(i)+'.eps', bbox_inches='tight', format='eps', dpi=1500)
+#
+## Error    
+#plt.figure(num=2)
+#plt.plot(t, e1, '--', color=0*np.ones(3), lw=2, label='$e_1(t)$')
+#plt.plot(t, e2, '--', color=0.3*np.ones(3), lw=2, label='$e_2(t)$')
+#plt.ylim(-2,5)
+#plt.xlim(0, 1.2)
+#plt.xlabel('$t$', fontsize = 14)
+#plt.legend(loc=9)
+#plt.text(1, -1.3, '$T_c=1$')
+#plt.axvline(x = 1, ymin = -1, ymax = 2, linestyle='dashed', color = 0.6*np.ones(3))
+#plt.grid()
+#plt.savefig('figures/errorW'+str(i)+'.eps', bbox_inches='tight', format='eps', dpi=1500)
+#
+## Control    
+#plt.figure(num=3)
+#plt.plot(t, u, '--', color=0*np.ones(3))
+#plt.ylim(-100,100)
+#plt.xlim(0, 1.2)
+#plt.xlabel('$t$', fontsize = 14)
+#plt.ylabel('$u$', fontsize = 14)
+#plt.grid()
+#plt.savefig('figures/controllerW'+str(i)+'.eps', bbox_inches='tight', format='eps', dpi=1500)
 
 IAEu = np.abs(u).sum()*h
