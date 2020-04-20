@@ -20,7 +20,7 @@ def system(t, x):
     xref = np.array([np.cos(2*np.pi*t), np.sin(2*np.pi*t)])
     #dxref = 2*np.pi*np.array([-np.sin(2*np.pi*t), np.cos(2*np.pi*t)])
     e = x-xref
-    r1, r2, r3, r4 = 1, 0, 2*2*np.pi, 1e-2
+    r1, r2, r3, r4 = 1, 0, 2*2*np.pi, 0*1e-2
     r5, r6, r7, r8, r9 = 1, 1, 0.9, 1.1, 1
     u = -1/r1*predefined(e,r5,r6,r7,r8,r9)-r3*e/(np.linalg.norm(e,axis=0)+r4)
     #Delta = -dxref 
@@ -94,30 +94,35 @@ for x0 in xx0:
         plt.ylim(-2, 2)
     
     
-    
+"""    
 plt.figure(num=1)
 plt.subplot(gs1[:3,0])
 plt.grid()
 plt.axvline(x=1, ymin=-2, ymax=2, color=0.5*np.ones(3))
-plt.xlabel('$t$')
+#plt.xlabel('$t$')
 plt.text(0.1, 1.5, '$x_0=10^1$')
 plt.text(0.25, 1.2, '$x_0=10^3$')
 plt.text(0.5, 1.0, '$x_0=10^{21}$')
 plt.text(1.1, -1.5, '$T_c=1$')
 plt.legend(loc='best')
 plt.subplot(gs1[3,0])
-plt.ylim(0, 2e-2)
+plt.ylim(-1e-2, 1e-2)
 plt.grid()
 plt.axvline(x=1, ymin=-2, ymax=2, color=0.5*np.ones(3))
 plt.axhline(y=1e-2, xmin=0, xmax=2, ls='--', color=0.5*np.ones(3))
 plt.xlabel('$t$')
-plt.ylabel('$||e(t)||$')
+plt.ylabel('$||s(t)||$')
 plt.text(0.1, 0.0055, '$x_0=10^1$')
-plt.text(0.2, 0.015, '$x_0=10^3$')
-plt.text(0.54, 0.012, '$x_0=10^{21}$')
+plt.text(0.2, 0.0025, '$x_0=10^3$')
+plt.text(0.54, -0.0035, '$x_0=10^{21}$')
 plt.text(1.1, 0.005, '$T_c=1$')
-plt.text(1.25, 0.011, '$b=0.01$')
-plt.savefig('figures/xvst.eps', bbox_inches='tight', format='eps', dpi=1500)
+#plt.text(0.1, 0.0055, '$x_0=10^1$')
+#plt.text(0.2, 0.015, '$x_0=10^3$')
+#plt.text(0.54, 0.012, '$x_0=10^{21}$')
+#plt.text(1.1, 0.005, '$T_c=1$')
+#plt.text(1.25, 0.011, '$b=0.01$')
+plt.savefig('figures/xvst_disc.eps', bbox_inches='tight', format='eps', dpi=1500)
+"""
 
 plt.figure(num=2)
 plt.grid()
@@ -127,5 +132,5 @@ plt.text(1.5, 0.7, '$x_0=10^1$')
 plt.text(1.0, 1.4, '$x_0=10^3$')
 plt.text(0.0, 1.5, '$x_0=10^{21}$')
 plt.legend(loc='best')
-plt.savefig('figures/x2vsx1.eps', bbox_inches='tight', format='eps', dpi=1500)
+plt.savefig('figures/x2vsx1_disc.eps', bbox_inches='tight', format='eps', dpi=1500)
      
